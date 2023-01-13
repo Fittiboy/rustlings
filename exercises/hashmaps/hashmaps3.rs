@@ -2,7 +2,7 @@
 
 // A list of scores (one per line) of a soccer match is given. Each line
 // is of the form :
-// <team_1_name>,<team_2_name>,<team_1_goals>,<team_2_goals>
+// <team_1_name>,<team_2_name>,<team_1_score>,<team_2_score>
 // Example: England,France,4,2 (England scored 4 goals, France 2).
 
 // You have to build a scores table containing the name of the team, goals
@@ -13,8 +13,6 @@
 // Make me pass the tests!
 
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a hint.
-
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -40,6 +38,23 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be the number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+        let mut entry = scores.entry(team_1_name.clone()).or_insert(Team {
+            name: team_1_name,
+            goals_scored: 0,
+            goals_conceded: 0,
+        });
+
+        entry.goals_scored += team_1_score.clone();
+        entry.goals_conceded += team_2_score.clone();
+
+        let mut entry = scores.entry(team_2_name.clone()).or_insert(Team {
+            name: team_2_name,
+            goals_scored: 0,
+            goals_conceded: 0,
+        });
+
+        entry.goals_scored += team_2_score;
+        entry.goals_conceded += team_1_score;
     }
     scores
 }
